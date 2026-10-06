@@ -1,0 +1,766 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Oncology Ward Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
+<style>
+/* Layout: sticky search + tab bar over one centered column of collapsible reference units. Palette from H&E staining: hematoxylin indigo for UI, eosin pink-red for alerts. */
+:root{
+  --bg:#F6F4F7; --surface:#FFFFFF; --surface2:#EFECF3; --line:#DAD5E1;
+  --fg:#1C1A24; --fg2:#59536A;
+  --accent:#3D3A94; --accent-ink:#FFFFFF; --accent-soft:#E7E5F8;
+  --alert:#B4285A; --alert-soft:#FAE3EB;
+  --ok:#1F7A55; --ok-soft:#DDF1E8; --warn:#8A5700; --warn-soft:#FBEFD2;
+  --serif:"Source Serif 4",Georgia,serif; --sans:"IBM Plex Sans",system-ui,-apple-system,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14121A; --surface:#1D1A26; --surface2:#262232; --line:#393449;
+  --fg:#ECE9F3; --fg2:#A9A3BC;
+  --accent:#A8A5F5; --accent-ink:#17152E; --accent-soft:#2C2A52;
+  --alert:#F08AAE; --alert-soft:#3C1E2B;
+  --ok:#6FD3A6; --ok-soft:#173326; --warn:#F0C060; --warn-soft:#38300F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14121A; --surface:#1D1A26; --surface2:#262232; --line:#393449;
+  --fg:#ECE9F3; --fg2:#A9A3BC;
+  --accent:#A8A5F5; --accent-ink:#17152E; --accent-soft:#2C2A52;
+  --alert:#F08AAE; --alert-soft:#3C1E2B;
+  --ok:#6FD3A6; --ok-soft:#173326; --warn:#F0C060; --warn-soft:#38300F; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.5}
+.wrap{max-width:900px;margin-inline:auto;padding-inline:16px}
+header.top{padding-block:18px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+h1{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;margin:0;text-wrap:balance}
+.sub{color:var(--fg2);font-size:13px;margin-top:4px}
+.btn{font:inherit;font-size:13px;font-weight:500;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding-block:8px}
+#q{width:100%;height:42px;font:inherit;font-size:16px;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding-inline:12px}
+.tabs{display:flex;gap:4px;overflow-x:auto;margin-top:8px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;font:inherit;font-size:14px;font-weight:500;color:var(--fg2);background:transparent;border:0;border-radius:6px;padding:7px 12px;cursor:pointer;white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+main{padding-block:16px 40px}
+.panel h2{font-family:var(--serif);font-size:20px;margin:0 0 4px}
+.lead{color:var(--fg2);margin:0 0 14px;max-width:65ch}
+.tools-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}
+.list{display:grid;gap:8px}
+h3{font-family:var(--serif);font-size:16px;margin:20px 0 8px}
+h4{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2);margin:14px 0 4px;font-weight:600}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--alert-soft);color:var(--alert)}
+.pill.acc{background:var(--accent-soft);color:var(--accent)}
+.chip{display:inline-block;font-family:var(--mono);font-size:11.5px;padding:1px 7px;border-radius:4px;background:var(--surface2);color:var(--fg2)}
+.aka{color:var(--fg2);font-size:12.5px}
+details.unit{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+details.unit>summary{list-style:none;cursor:pointer;padding:12px 40px 12px 14px;position:relative}
+details.unit>summary::-webkit-details-marker{display:none}
+details.unit>summary::after{content:"+";position:absolute;right:14px;top:10px;font-size:20px;color:var(--fg2);font-family:var(--mono)}
+details.unit[open]>summary::after{content:"\2212"}
+.u-name{font-weight:600;font-size:16px;margin-right:8px}
+.u-sub{display:block;color:var(--fg2);font-size:13.5px;margin-top:4px}
+.u-body{padding:0 14px 14px;border-top:1px solid var(--line)}
+.u-body ul,.u-body ol{margin:4px 0;padding-left:20px}
+.u-body li{margin:3px 0}
+.u-body p{margin:4px 0}
+.row{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:8px 18px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.row{grid-template-columns:210px minmax(0,1fr) minmax(0,1fr)}}
+.row>div{min-width:0}
+.lbl{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2);margin-bottom:2px}
+.row b{font-size:15.5px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.fc{font:inherit;font-size:13px;background:var(--surface);color:var(--fg2);border:1px solid var(--line);border-radius:99px;padding:4px 12px;cursor:pointer}
+.fc[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.tbl{overflow-x:auto;margin:6px 0}
+table{border-collapse:collapse;font-size:13.5px;min-width:100%}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--fg2)}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.term b{display:block}
+.term p{margin:2px 0 0;color:var(--fg2)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px}
+.card.alert{background:var(--alert-soft);border-color:var(--alert)}
+.grid2{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fld{display:grid;gap:3px;font-size:13px;color:var(--fg2)}
+.fld input,.fld select{font:inherit;font-size:16px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 9px;min-width:0;width:100%}
+.frow{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin:10px 0}
+.out{font-family:var(--mono);font-size:13.5px;background:var(--accent-soft);color:var(--fg);border-radius:6px;padding:10px 12px;margin-top:8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.out.alert{background:var(--alert-soft)}
+.note{font-size:12.5px;color:var(--fg2);margin-top:6px}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--line)}
+.chk:last-child{border-bottom:0}
+.chk input{margin-top:4px;width:18px;height:18px;flex:none;accent-color:var(--accent)}
+.src{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:12px 0 4px}
+.qcard{min-height:200px;display:flex;flex-direction:column;gap:12px}
+.qq{font-family:var(--serif);font-size:19px;line-height:1.35}
+.qa{background:var(--accent-soft);border-radius:6px;padding:10px 12px}
+.qbtns{display:flex;gap:8px;flex-wrap:wrap}
+.bar2{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.bar2>i{display:block;height:100%;background:var(--accent)}
+footer{color:var(--fg2);font-size:12.5px;padding-block:8px 36px;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:no-preference){.tab,.btn,.fc{transition:background .12s,border-color .12s}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Oncology Ward Guide</h1>
+      <div class="sub">Pocket reference for the inpatient oncology service. Search anything.</div>
+    </div>
+    <button class="btn" id="themeBtn" type="button">Theme: Auto</button>
+  </header>
+</div>
+<div class="bar"><div class="wrap">
+  <input id="q" type="search" placeholder="Search drugs, regimens, emergencies, terms" autocomplete="off" aria-label="Search">
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Sections"></nav>
+</div></div>
+<div class="wrap"><main id="main"></main>
+<footer>Study aid for trainees. Doses are typical adult values for reference only. Verify against the hospital protocol and pharmacy before ordering. Confirm every plan with the senior, fellow, or attending.</footer></div>
+
+<script>
+const EM=[
+{id:"fn",name:"Neutropenic fever",pill:"Antibiotics within 60 min",
+trig:"Temp 38.3 or higher once, or 38.0 or higher for 1 h, with ANC under 500 or expected under 500 within 48 h. Treat every febrile chemo patient as neutropenic until the ANC is known.",
+now:["Vitals, lactate, sepsis screen. Fluids if hypotensive (30 mL/kg for hypotension or lactate 4 or higher).",
+"Blood cultures x2 before antibiotics: one peripheral, one from each central line lumen. Do not delay antibiotics for more than a few minutes.",
+"Cefepime 2 g IV q8h, or pip-tazo 4.5 g IV q6h, or meropenem 1 g IV q8h. Target within 60 min of arrival. Do not wait for the ANC.",
+"Add vancomycin for hypotension, suspected line infection, skin or soft tissue infection, pneumonia, severe mucositis, gram-positive cocci in a blood culture, or known MRSA. Pharmacy doses it."],
+then:["CBC with differential, BMP, LFTs, UA and urine culture, CXR. CT chest if hypoxic or symptomatic. Stool C. diff if diarrhea. Respiratory viral PCR if symptomatic.",
+"Examine mouth, skin, line sites, and perianal skin by inspection only.",
+"Abdominal pain: think typhlitis, get CT abdomen, use anaerobic coverage.",
+"Fever persisting 4 to 7 days on broad antibiotics: CT chest, galactomannan, ask ID about empiric antifungal.",
+"Narrow to culture data. Duration per oncology (afebrile and ANC recovering)."],
+call:"Hypotension, lactate over 2, rigors with line flush, new hypoxia, altered mental status, or poor response to fluids. These patients can crash within hours.",
+pearls:["No rectal temperatures, suppositories, enemas, or rectal exams.",
+"Neutropenic patients may show no infiltrate on CXR and no pyuria. Absent findings do not exclude infection.",
+"Cefepime accumulates in renal dysfunction and can cause encephalopathy and seizures. Check renal dosing.",
+"Mild penicillin allergy still allows cefepime in most cases. Severe allergy: ask pharmacy.",
+"Fever with a central line: culture every lumen. Remove the line for S. aureus, Pseudomonas, Candida, tunnel or port pocket infection, septic shock, or bacteremia lasting over 72 h on active antibiotics."]},
+
+{id:"tls",name:"Tumor lysis syndrome",pill:"Fluids, rasburicase, watch K",
+trig:"Lab TLS (Cairo-Bishop): 2 or more of uric acid 8 or higher, K 6 or higher, phos 4.5 or higher, Ca 7 or lower (the original criteria also count a 25 percent change from baseline in any of these), within 3 days before to 7 days after therapy. Clinical TLS adds creatinine 1.5x ULN, arrhythmia, or seizure.",
+now:["Telemetry and ECG. Labs every 4 to 6 h: K, phos, Ca, Cr, uric acid, LDH.",
+"IV fluids to urine output of about 100 mL/h or more (about 2 to 3 L/m2/day) unless volume overloaded.",
+"Rasburicase 0.2 mg/kg IV daily for high-risk patients or high uric acid. Contraindicated in G6PD deficiency. Screen G6PD first when possible, always in patients of African or Mediterranean ancestry. Send uric acid on ice (the enzyme keeps destroying uric acid in the tube).",
+"K 6 or higher or ECG changes: calcium gluconate 1 to 2 g IV, insulin 10 units IV (consider 5 units with AKI) with dextrose 25 g and hourly glucose checks for 4 to 6 h, albuterol neb. Call the senior."],
+then:["Treat hypocalcemia only if symptomatic (calcium-phosphate precipitation).",
+"No potassium or phosphate in IV fluids. Hold nephrotoxins and contrast.",
+"Phosphate binders for high phos. Allopurinol for prevention in low or intermediate risk (not with rasburicase).",
+"Early nephrology call for refractory K, oliguria, rising Cr, or volume overload. Dialysis may be needed."],
+call:"Any K 6 or higher, arrhythmia, oliguria, rising creatinine, or symptomatic hypocalcemia.",
+pearls:["High risk: ALL, Burkitt, high-grade lymphoma, AML with high WBC, bulky disease, high LDH, CKD. Also venetoclax ramp-up in CLL.",
+"Do not alkalinize urine. It is no longer recommended.",
+"Usually appears 12 to 72 h after starting treatment."]},
+
+{id:"cord",name:"Spinal cord compression",pill:"Steroids and MRI now",
+trig:"Known or suspected cancer (lung, breast, prostate, myeloma, renal) with new back or neck pain, pain worse lying flat or at night, leg weakness, sensory level, or bowel or bladder change.",
+now:["Full neuro exam including rectal tone, perianal sensation, and bladder scan. Document motor level.",
+"Dexamethasone 10 mg IV load, then 4 mg IV q6h is typical. Higher doses for severe deficits per attending. Do not wait for MRI if there are deficits.",
+"MRI of the whole spine, STAT. Contrast is optional and should not delay the scan.",
+"Call the senior, then radiation oncology and neurosurgery."],
+then:["Flat bed and log-roll precautions if the spine may be unstable.",
+"PPI or H2 blocker and glucose checks while on high-dose steroids.",
+"If lymphoma is suspected, tell oncology about steroids before the biopsy."],
+call:"Any new weakness, sensory level, or bladder or bowel dysfunction. Neuro signs: MRI within 24 h, sooner if possible. Back pain suggesting spinal metastases without neuro signs: urgent MRI (NICE allows up to 1 week; most inpatient teams image sooner).",
+pearls:["Outcome depends on function at treatment start. Walking at presentation usually keeps walking.",
+"Pain often precedes weakness by weeks to months."]},
+
+{id:"svc",name:"SVC syndrome",pill:"Airway first",
+trig:"Face, neck, or arm swelling, distended neck and chest wall veins, dyspnea, headache. Lung cancer and lymphoma are the usual causes. Central lines can also cause it.",
+now:["Assess airway. Stridor or laryngeal edema: call senior, anesthesia, and ICU.",
+"Head of bed up, oxygen as needed.",
+"CT chest with contrast.",
+"Call the senior and oncology early. Interventional radiology for stent, radiation oncology for radiation."],
+then:["Get tissue diagnosis if unknown before radiation or steroids when feasible (lymphoma).",
+"Use lower extremity IV access if available.",
+"Catheter-related thrombosis: anticoagulation, line removal per team."],
+call:"Stridor, hypoxia, or neurologic symptoms.",
+pearls:["Steroids help only for steroid-responsive tumors (lymphoma, thymoma). They can ruin the biopsy."]},
+
+{id:"hcal",name:"Hypercalcemia of malignancy",pill:"Fluids first",
+trig:"Corrected Ca above 10.5. Mild under 12, moderate 12 to 14, severe over 14. Symptoms: confusion, constipation, nausea, polyuria, dehydration, abdominal pain, short QT. Common in lung (squamous), breast, myeloma, renal, head and neck, lymphoma.",
+now:["Confirm with corrected or ionized calcium. Stop calcium, vitamin D, and thiazides.",
+"Normal saline about 200 to 300 mL/h, titrated to volume status and urine output (100 to 150 mL/h).",
+"Zoledronic acid 4 mg IV over at least 15 min. Onset 2 to 4 days. No dose change needed for hypercalcemia of malignancy if creatinine is under 4.5.",
+"Denosumab is an alternative and is favored by Endocrine Society guidance. In CrCl under 30 it causes severe hypocalcemia at full dose, so the dose is lowered. Decide with pharmacy.",
+"Calcitonin 4 units/kg SC or IM q12h for calcium over 14, added to zoledronic acid or denosumab. Works in hours. Stop by 48 to 72 h (tachyphylaxis)."],
+then:["Loop diuretic only after volume repleted and if overloaded.",
+"Steroids (for example prednisone 20 to 40 mg daily) when lymphoma or high calcitriol is the cause.",
+"Check PTH, PTHrP, and 1,25 vitamin D if the cause is unclear.",
+"Dialysis for severe hypercalcemia with renal failure."],
+call:"Calcium over 14, ECG changes, altered mental status, or AKI.",
+pearls:["Most patients are volume depleted at presentation.",
+"Hypercalcemia plus confusion plus constipation plus nausea: think calcium before blaming opioids."]},
+
+{id:"siadh",name:"SIADH and hyponatremia",pill:"Limit correction rate",
+trig:"Low sodium, euvolemic, low serum osm, urine osm over 100, urine sodium over 30. Classic for small cell lung cancer. Drugs: cyclophosphamide, vincristine. Cisplatin more often causes renal salt wasting (hypovolemic, high urine sodium), where fluid restriction is harmful.",
+now:["Serum osm, urine osm, urine sodium, TSH, cortisol, volume exam. Check for adrenal insufficiency (checkpoint inhibitors can cause it).",
+"Severe symptoms (seizure, coma): 3 percent saline 100 to 150 mL bolus, repeat to raise Na by 4 to 6. Senior and ICU.",
+"Mild or moderate: fluid restriction about 800 to 1000 mL/day. Stop offending drugs."],
+then:["Salt tablets or urea if restriction fails. Tolvaptan is rarely used.",
+"Na checks every 2 to 4 h during hypertonic therapy."],
+call:"Seizure, confusion, Na under 120, or overcorrection.",
+pearls:["Aim for 4 to 8 mEq/L in 24 h. Do not exceed 8 in 24 h if high risk for osmotic demyelination: malnutrition, alcohol use disorder, hypokalemia, advanced liver disease, Na 105 or lower.",
+"Overcorrecting: D5W with or without desmopressin per senior."]},
+
+{id:"mets",name:"Brain metastases and raised ICP",pill:"Dexamethasone, imaging",
+trig:"New headache, vomiting, seizure, focal deficit, or confusion in a patient with lung, breast, melanoma, renal, or colon cancer.",
+now:["Neuro exam, fingerstick glucose.",
+"Mild symptoms: dexamethasone 4 to 8 mg/day. Severe symptoms or raised ICP: 16 mg/day or more (10 mg IV load is common). No steroids if asymptomatic without mass effect. If CNS lymphoma is possible, ask oncology before steroids.",
+"CT head without contrast if unstable, MRI brain with and without contrast.",
+"Seizure: lorazepam, then levetiracetam. Routine seizure prophylaxis is not recommended."],
+then:["Head of bed 30 degrees.",
+"PPI and glucose monitoring on steroids. PJP prophylaxis if steroids expected for 4 weeks or longer.",
+"Neurosurgery and radiation oncology consults."],
+call:"Declining mental status, herniation signs, or seizure. Herniation: hyperosmolar therapy (3 percent saline or mannitol), ICU, neurosurgery.",
+pearls:["Hemorrhagic metastases (melanoma, renal, choriocarcinoma) change anticoagulation decisions."]},
+
+{id:"irae",name:"Checkpoint inhibitor toxicity",pill:"Hold drug, call oncology",
+trig:"Any new symptom on or within about a year of pembrolizumab, nivolumab, ipilimumab, atezolizumab, durvalumab, avelumab, cemiplimab, dostarlimab, tremelimumab, relatlimab, or any other PD-1, PD-L1, CTLA-4, or LAG-3 inhibitor. Usual onset 2 to 16 weeks, but can be late. Colitis, pneumonitis, hepatitis, thyroid, adrenal, pituitary, skin, nephritis, myocarditis, neurologic.",
+now:["Rule out infection and progression: cultures, C. diff, imaging.",
+"Grade by CTCAE. Grade 2 or higher: hold the drug. Grade 1: oncology usually continues it with close monitoring. Call oncology the same day either way.",
+"Grade 2: prednisone 0.5 to 1 mg/kg. Grade 3 to 4: admit, methylprednisolone 1 to 2 mg/kg IV.",
+"Organ-specific: diarrhea (stool studies, C. diff, CT, GI), cough or hypoxia (CT chest, hold drug), high LFTs (viral hepatitis, hold hepatotoxins), troponin or ECG change (myocarditis, urgent cardiology). Suspected myocarditis gets pulse methylprednisolone 500 to 1000 mg IV daily with cardiology."],
+then:["Steroid taper over 4 to 6 weeks. PJP prophylaxis if prednisone 20 mg or more for 4 weeks or longer.",
+"Steroid-refractory colitis: infliximab or vedolizumab (screen TB and hepatitis B first). Hepatitis: no infliximab, mycophenolate is the usual second agent. Pneumonitis: second agent per specialist.",
+"Endocrine: replace the hormone (levothyroxine, hydrocortisone) rather than treating with high-dose steroids."],
+call:"Grade 3 or higher, hypoxia, hypotension, troponin rise, or any sick patient on these drugs with an unexplained illness.",
+pearls:["Adrenal crisis (hypophysitis or primary adrenalitis): hypotension, low Na, fatigue, high K if primary. Draw cortisol and ACTH if it causes no delay, then hydrocortisone 100 mg IV and fluids. Start steroids before thyroid hormone.",
+"Early ICU and specialist involvement for myocarditis, myasthenia, or Guillain-Barre-like syndromes."]},
+
+{id:"leuk",name:"Leukostasis and hyperleukocytosis",pill:"Call heme and ICU",
+trig:"WBC over 100k (lower in monocytic AML) with dyspnea, hypoxia, headache, confusion, or visual change.",
+now:["Call the senior, heme attending, and ICU.",
+"Start cytoreduction per heme (hydroxyurea, induction chemo, or leukapheresis). No leukapheresis in APL.",
+"TLS prophylaxis with IV fluids and labs every 4 to 6 h.",
+"Avoid unnecessary RBC transfusion (raises viscosity)."],
+then:["Keep platelets above 20 to 30k to lower intracranial bleeding risk.",
+"Coagulation studies, fibrinogen, and LDH."],
+call:"Immediately.",
+pearls:["Check for APL (coagulopathy). It changes management.","Very high WBC can falsely raise K and falsely lower PaO2. Confirm K on a blood gas or heparinized sample and trust pulse oximetry."]},
+
+{id:"apl",name:"APL and DIC in AML",pill:"Start ATRA at suspicion",
+trig:"Newly diagnosed or suspected AML with bruising, bleeding, low platelets, high INR, or low fibrinogen.",
+now:["Call the heme attending now. Start ATRA at suspicion, do not wait for confirmation.",
+"Transfuse to keep platelets above 30 to 50k, fibrinogen above 150 (cryoprecipitate), and FFP for a high INR.",
+"No LP and no invasive procedures without heme approval."],
+then:["Differentiation syndrome on ATRA or arsenic: fever, dyspnea, weight gain, edema, effusions, hypotension. Dexamethasone 10 mg IV BID and call heme.",
+"Monitor QTc on arsenic. Keep K above 4 and Mg above 2."],
+call:"Any bleeding, neurologic change, or respiratory distress.",
+pearls:["APL is curable. Most early deaths are from hemorrhage."]},
+
+{id:"crs",name:"Cytokine release syndrome and ICANS",pill:"Fever after CAR-T or bispecific",
+trig:"Fever (often first sign), hypotension, or hypoxia within days of CAR-T or bispecific therapy (teclistamab, epcoritamab, glofitamab, blinatumomab). ICANS: confusion, aphasia, handwriting change, tremor, seizure, somnolence.",
+now:["Call the treating team and senior now.",
+"Treat fever as infection too: cultures and broad antibiotics.",
+"Grade CRS and ICANS. Tocilizumab for CRS (grade 2 or higher per protocol). Dexamethasone for ICANS or refractory CRS per team.",
+"Fluids, oxygen, vasopressors per grade. ICU for grade 3 or higher."],
+then:["Seizure prophylaxis (often levetiracetam) per protocol. Neuro checks including handwriting every shift.",
+"Tocilizumab does not treat isolated ICANS. Steroids are used. ICANS can start after CRS resolves.",
+"Watch for HLH features: very high ferritin, cytopenias."],
+call:"Immediately for any fever or neuro change in this setting.",
+pearls:["Follow the institution protocol for grading and treatment. Timing of tocilizumab and steroids is protocol-specific."]},
+
+{id:"typh",name:"Neutropenic enterocolitis (typhlitis)",pill:"Anaerobic coverage, surgery",
+trig:"Neutropenia with abdominal pain (often right lower quadrant), fever, and diarrhea. CT shows bowel wall thickening, usually cecum.",
+now:["CT abdomen and pelvis.",
+"Broad antibiotics with anaerobic coverage: pip-tazo or meropenem, or cefepime plus metronidazole.",
+"NPO, IV fluids, serial abdominal exams.",
+"Surgery consult early."],
+then:["Treat pain with the lowest opioid dose that gives comfort. Avoid anticholinergics and antidiarrheals such as loperamide, which can worsen ileus.",
+"Consider antifungal coverage if prolonged."],
+call:"Peritonitis, free air, hypotension, or worsening pain.",
+pearls:["Can progress to perforation. Surgery is needed for perforation or ischemia."]},
+
+{id:"inf",name:"Infusion reaction and anaphylaxis",pill:"Stop the infusion",
+trig:"During or soon after infusion: flushing, rash, rigors, dyspnea, back pain, hypotension. Rituximab, taxanes, platinums (after several cycles), cetuximab, trastuzumab.",
+now:["Stop the infusion. Keep IV access open with saline.",
+"Full vitals. Call the nurse and senior. Call rapid response for anaphylaxis or hypotension.",
+"Mild or moderate: diphenhydramine 25 to 50 mg IV, famotidine, acetaminophen, hydrocortisone 100 mg IV.",
+"Anaphylaxis (hypotension, bronchospasm, stridor): epinephrine 1 mg/mL, 0.3 to 0.5 mg IM in the lateral thigh, repeat every 5 to 15 min as needed. Never give 1 mg/mL IV push. Fluids, oxygen."],
+then:["Restart only per oncology and pharmacy, usually at a slower rate with premedication.",
+"Do not rechallenge after anaphylaxis without allergy and oncology input."],
+call:"Any reaction beyond mild.",
+pearls:["Rituximab reactions are most common with the first dose."]},
+
+{id:"ext",name:"Extravasation",pill:"Stop and call pharmacy",
+trig:"Pain, burning, swelling, or redness at the IV site during a vesicant infusion (doxorubicin, daunorubicin, vincristine, vinorelbine, mitomycin).",
+now:["Stop the infusion. Leave the cannula in place.",
+"Aspirate residual drug from the cannula. Do not flush. Remove the cannula after aspiration (and after any antidote given through it).",
+"Call oncology, pharmacy, and the senior. Use the extravasation kit per policy.",
+"Mark the area and take a photo for the chart."],
+then:["Cold compress for anthracyclines. Warm compress plus hyaluronidase for vinca alkaloids. Other agents: follow the extravasation policy and pharmacy.",
+"Dexrazoxane for anthracycline extravasation, started within 6 h. Remove cold packs at least 15 min before the infusion.",
+"Surgery or plastics consult for skin breakdown."],
+call:"Any suspected extravasation.",
+pearls:["Prevent: confirm blood return before vesicants. Central lines still extravasate."]},
+
+{id:"tamp",name:"Malignant pericardial effusion",pill:"Bedside echo",
+trig:"Dyspnea, hypotension, tachycardia, JVD, muffled heart sounds, pulsus paradoxus in a patient with lung, breast, or lymphoma. Also radiation or checkpoint inhibitors.",
+now:["Bedside echo.",
+"Call the senior and cardiology for urgent pericardiocentesis if tamponade.",
+"Small fluid bolus (250 to 500 mL) only if hypotensive and dry. Avoid diuretics and vasodilators. Avoid intubation and positive pressure ventilation unless unavoidable; they can cause collapse."],
+then:["Send fluid for cytology, cell count, protein, and culture.",
+"Pericardial window or drain for recurrence."],
+call:"Immediately.",
+pearls:["Low-voltage ECG and electrical alternans are supportive but not required."]}
+];
+const DRUGS=[
+["Cisplatin","","Chemo","Platinum","Kidney injury, low Mg and K, hearing loss, neuropathy, severe and delayed nausea.","Needs pre and post hydration. Replete Mg and K. Avoid other nephrotoxins and ototoxins such as aminoglycosides. Check Cr before each dose."],
+["Carboplatin","","Chemo","Platinum","Thrombocytopenia (dose limiting), neutropenia, nausea, hypersensitivity after many cycles.","Dosed by renal function (Calvert, target AUC). Check platelets."],
+["Oxaliplatin","","Chemo","Platinum","Cold-triggered neuropathy (throat tightness), cumulative sensory neuropathy, hypersensitivity, neutropenia.","No ice or cold drinks for several days after each dose."],
+["Paclitaxel","Taxol","Chemo","Taxane","Neuropathy, neutropenia, hypersensitivity, myalgias, alopecia.","Premedicated with dexamethasone, H1 and H2 blockers. Reactions usually in the first 10 minutes."],
+["Nab-paclitaxel","Abraxane","Chemo","Taxane","Neuropathy, neutropenia.","No standard premedication. Not interchangeable with paclitaxel dosing."],
+["Docetaxel","Taxotere","Chemo","Taxane","Febrile neutropenia (common), fluid retention, neuropathy, nail changes, hypersensitivity.","Dexamethasone premedication limits edema. Hepatic impairment raises toxicity."],
+["Doxorubicin","Adriamycin","Chemo","Anthracycline","Cardiomyopathy (cumulative), myelosuppression, mucositis, nausea, red urine, secondary leukemia.","Vesicant. Cardiotoxicity is cumulative: heart failure risk is about 3 to 5 percent at 400 mg/m2 and up to 20 percent at 500 mg/m2. Many centers cap at 400 to 450 mg/m2, lower with chest radiation or trastuzumab. Check LVEF before starting and during treatment."],
+["Daunorubicin","","Chemo","Anthracycline","Cardiomyopathy, profound myelosuppression, mucositis.","Used in 7+3. Vesicant. Cardiotoxicity rises with cumulative dose above about 400 to 550 mg/m2 (lower with prior chest radiation). Check LVEF before starting. Reduce dose for high bilirubin."],
+["Cyclophosphamide","Cytoxan","Chemo","Alkylator","Myelosuppression, hemorrhagic cystitis (high dose), SIADH, nausea.","Hydrate and void often. Mesna with high dose."],
+["Ifosfamide","Ifex","Chemo","Alkylator","Hemorrhagic cystitis, encephalopathy, kidney injury (Fanconi), myelosuppression.","Always with mesna. New confusion: think ifosfamide encephalopathy and call oncology."],
+["Vincristine","Oncovin","Chemo","Vinca alkaloid","Neuropathy, constipation and ileus, jaw pain, SIADH.","IV only, fatal if given intrathecally. Vesicant. Aggressive bowel regimen. Azoles (itraconazole, posaconazole, voriconazole) worsen neurotoxicity, so check with pharmacy. Reduce dose for high bilirubin."],
+["Vinorelbine","Navelbine","Chemo","Vinca alkaloid","Neutropenia, constipation, neuropathy.","Vesicant."],
+["Etoposide","VP-16","Chemo","Topoisomerase II","Myelosuppression, hypotension with fast infusion, nausea, secondary leukemia.","Slow the infusion for hypotension."],
+["Fluorouracil","5-FU","Chemo","Antimetabolite","Mucositis, diarrhea, myelosuppression, hand-foot syndrome, coronary vasospasm.","FDA advises considering DPYD testing before the first dose. Severe cycle 1 toxicity suggests DPD deficiency. Antidote: uridine triacetate, best within 96 h. Chest pain: stop the infusion."],
+["Capecitabine","Xeloda","Chemo","Antimetabolite","Hand-foot syndrome, diarrhea, mucositis, myelosuppression.","Same DPD deficiency risk as 5-FU, consider DPYD testing. Raises INR with warfarin. Renal dose adjustment. Hold for grade 3 toxicity."],
+["Gemcitabine","Gemzar","Chemo","Antimetabolite","Myelosuppression (platelets), flu-like illness, rash, edema, rare TMA and pneumonitis.","New hypertension, hemolysis, or AKI: think TMA."],
+["Irinotecan","Camptosar","Chemo","Topoisomerase I","Early cholinergic diarrhea, late diarrhea, neutropenia.","Early diarrhea during infusion: atropine. Late diarrhea: loperamide and fluids. Severe diarrhea with neutropenia is an emergency."],
+["Pemetrexed","Alimta","Chemo","Antimetabolite","Myelosuppression, mucositis, rash, kidney injury.","Needs folic acid, B12, and dexamethasone. Avoid NSAIDs. Avoid if CrCl under 45."],
+["Methotrexate","MTX","Chemo","Antimetabolite","Kidney injury, mucositis, myelosuppression, hepatotoxicity, neurotoxicity.","High dose: IV fluids and bicarbonate to keep urine pH above 7. Leucovorin rescue and drug levels. Avoid PPIs, NSAIDs, TMP-SMX, penicillins, probenecid. Effusions delay clearance. Glucarpidase for toxicity."],
+["Bleomycin","","Chemo","Antibiotic","Pulmonary fibrosis, rash, fever, Raynaud.","Lung toxicity rises sharply above 400 units total. Reduce dose if CrCl is under 50. Lymphoma patients get 2 units or less for the first 2 doses. Avoid high FiO2 when possible. New cough or dyspnea needs imaging and oncology."],
+["Cytarabine","Ara-C","Chemo","Antimetabolite","Myelosuppression, cerebellar toxicity (high dose), conjunctivitis, fever, rash.","Check gait and finger-nose before high-dose doses. Steroid eye drops."],
+["Azacitidine","Vidaza","Chemo","Hypomethylating agent","Cytopenias, nausea, injection-site reactions.","With venetoclax: prolonged neutropenia and infection risk."],
+["Fludarabine","","Chemo","Purine analog","Profound T-cell depletion, neurotoxicity, autoimmune hemolysis.","Irradiated blood products for life. PJP and VZV prophylaxis. Renal dosing."],
+["Bendamustine","Treanda","Chemo","Alkylator","Cytopenias, rash, infections, TLS.","Prolonged lymphopenia. Irradiated blood products, often indefinitely (UK guidance treats it like fludarabine). PJP and zoster prophylaxis per protocol."],
+["Temozolomide","Temodar","Chemo","Alkylator","Myelosuppression, nausea, fatigue.","PJP prophylaxis with concurrent radiation or steroids."],
+["Rituximab","Rituxan","Targeted","Anti-CD20","Infusion reaction (worst first dose), HBV reactivation, PML, TLS with high tumor burden, hypogammaglobulinemia.","Screen HBsAg and anti-HBc before the first dose. Obinutuzumab is similar with more severe reactions."],
+["Trastuzumab","Herceptin","Targeted","Anti-HER2","Cardiomyopathy, infusion reaction.","Echo about every 3 months. Risk rises with anthracyclines. Pertuzumab adds diarrhea."],
+["Bevacizumab","Avastin","Targeted","Anti-VEGF","Hypertension, proteinuria, bleeding, clots, GI perforation, poor wound healing.","Hold around surgery. Abdominal pain on bevacizumab: think perforation."],
+["Cetuximab","Erbitux","Targeted","Anti-EGFR","Acneiform rash, low Mg, diarrhea, infusion reaction.","Panitumumab is similar. Replete Mg."],
+["Osimertinib","Tagrisso","Targeted","EGFR TKI","Rash, diarrhea, ILD, QTc prolongation, paronychia.","New cough or dyspnea: hold and image for ILD. Erlotinib and gefitinib are similar."],
+["Alectinib","Alecensa","Targeted","ALK TKI","Myalgia, constipation, edema, bradycardia, hepatotoxicity.","Lorlatinib adds hyperlipidemia and cognitive effects."],
+["Imatinib","Gleevec","Targeted","BCR-ABL TKI","Edema, cytopenias, nausea, hepatotoxicity.","CYP3A4 interactions. Dasatinib causes pleural effusion and thrombocytopenia."],
+["Ibrutinib","Imbruvica","Targeted","BTK inhibitor","Bleeding, atrial fibrillation, hypertension, infections.","Hold before procedures. Avoid with warfarin. Azoles raise levels. Acalabrutinib has less AF."],
+["Venetoclax","Venclexta","Targeted","BCL-2 inhibitor","TLS (during ramp-up), neutropenia, diarrhea.","Slow dose ramp-up with TLS labs. Azoles raise levels, reduce dose."],
+["Lenalidomide","Revlimid","Targeted","IMiD","Cytopenias, VTE, rash, teratogenicity.","VTE prophylaxis needed. Renal dosing."],
+["Bortezomib","Velcade","Targeted","Proteasome inhibitor","Neuropathy, thrombocytopenia, zoster reactivation, GI effects.","Acyclovir prophylaxis. Carfilzomib adds cardiac toxicity and dyspnea."],
+["Daratumumab","Darzalex","Targeted","Anti-CD38","Infusion reaction, infections, interferes with blood bank testing.","Type and screen before the first dose. Tell the blood bank before any transfusion. It causes a panreactive antibody screen for up to 6 months after the last dose. It can also show on SPEP and immunofixation."],
+["Palbociclib","Ibrance","Targeted","CDK4/6 inhibitor","Neutropenia, fatigue, rare ILD.","Ribociclib adds QTc prolongation and liver injury. Abemaciclib causes diarrhea and VTE."],
+["Olaparib","Lynparza","Targeted","PARP inhibitor","Anemia, nausea, fatigue, thrombocytopenia (niraparib), rare MDS or AML.","Transfusion need can rise over time."],
+["Sunitinib","Sutent","Targeted","VEGF TKI","Hypertension, hand-foot syndrome, diarrhea, hypothyroidism, bleeding.","Sorafenib, lenvatinib, and cabozantinib are similar. Hold before surgery."],
+["Everolimus","Afinitor","Targeted","mTOR inhibitor","Pneumonitis, stomatitis, hyperglycemia, hyperlipidemia, infections.","Dexamethasone mouthwash for stomatitis."],
+["Trastuzumab deruxtecan","Enhertu","Targeted","ADC (HER2)","ILD (can be fatal), nausea, cytopenias, cardiomyopathy.","New cough or hypoxia: hold and call oncology."],
+["Enfortumab vedotin","Padcev","Targeted","ADC (nectin-4)","Severe skin reactions (SJS/TEN), hyperglycemia, neuropathy.","Check glucose. New rash: call oncology."],
+["Sacituzumab govitecan","Trodelvy","Targeted","ADC (TROP-2)","Neutropenia, diarrhea, nausea.","Treat diarrhea early."],
+["Brentuximab vedotin","Adcetris","Targeted","ADC (CD30)","Neuropathy, neutropenia, PML, pancreatitis.","Contraindicated with bleomycin."],
+["Pembrolizumab","Keytruda","Immuno","PD-1 inhibitor","Immune-related colitis, pneumonitis, hepatitis, thyroid, adrenal and pituitary, skin, nephritis, myocarditis.","Can start months after the last dose. See the checkpoint inhibitor card in Emergencies."],
+["Nivolumab","Opdivo","Immuno","PD-1 inhibitor","Same as pembrolizumab.","With ipilimumab, toxicity is more frequent and more severe."],
+["Ipilimumab","Yervoy","Immuno","CTLA-4 inhibitor","Colitis, hypophysitis, hepatitis, rash.","Highest rates of colitis and hypophysitis."],
+["Atezolizumab and durvalumab","Tecentriq, Imfinzi","Immuno","PD-L1 inhibitor","Same immune-related toxicities.","Used with chemotherapy in small cell lung cancer."],
+["CAR-T and bispecific antibodies","Teclistamab (Tecvayli), epcoritamab (Epkinly), glofitamab (Columvi), blinatumomab (Blincyto)","Immuno","CAR-T cell therapy or T-cell engager","Cytokine release syndrome, ICANS, cytopenias, infections, hypogammaglobulinemia.","Fever after infusion: cultures and call the treating team at once."],
+["Abiraterone","Zytiga","Hormonal","CYP17 inhibitor","Low K, hypertension, fluid retention, liver injury.","Given with prednisone. Check K, BP, and fluid status. LFTs every 2 weeks for 3 months, then monthly."],
+["Enzalutamide","Xtandi","Hormonal","Androgen receptor inhibitor","Fatigue, falls, hypertension, rare seizures.","Apalutamide and darolutamide are similar."],
+["Leuprolide","Lupron","Hormonal","GnRH agonist (ADT)","Initial tumor flare, hot flashes, bone loss, metabolic effects.","Flare is dangerous with spinal or ureteral metastases. Start an antiandrogen first."],
+["Tamoxifen","","Hormonal","SERM","VTE, endometrial cancer, hot flashes.","Strong CYP2D6 inhibitors (paroxetine, fluoxetine) reduce its effect."],
+["Anastrozole and letrozole","Arimidex, Femara","Hormonal","Aromatase inhibitor","Joint pain, bone loss, hot flashes.","Calcium, vitamin D, bone density monitoring."]
+];
+const REGS=[
+["AC-T","Doxorubicin + cyclophosphamide x4, then paclitaxel","Breast","Breast (adjuvant, neoadjuvant)","AC every 14 days (with G-CSF) or 21 days x4, then paclitaxel weekly x12 or every 14 days x4","Highly emetogenic. Cardiotoxicity. Neutropenia, usually with G-CSF. Taxane neuropathy."],
+["TC","Docetaxel + cyclophosphamide","Breast","Breast","Every 21 days","High rate of febrile neutropenia. Edema, neuropathy."],
+["TCHP","Docetaxel + carboplatin + trastuzumab + pertuzumab","Breast","HER2-positive breast","Every 21 days","Diarrhea, neutropenia, cardiomyopathy. Echo monitoring."],
+["CDK4/6 inhibitor + endocrine","Palbociclib, ribociclib, or abemaciclib with an aromatase inhibitor or fulvestrant","Breast","ER-positive metastatic breast","Palbociclib and ribociclib 21 days on, 7 off. Abemaciclib daily without a break","Neutropenia (palbociclib, ribociclib). Ribociclib: ECG at baseline and about day 14, LFTs every 2 weeks early. Diarrhea (abemaciclib)."],
+["Carboplatin / pemetrexed / pembrolizumab","","Lung","Non-squamous NSCLC","Every 21 days x4, then pemetrexed + pembrolizumab","Immune toxicity, cytopenias, kidney injury, rash."],
+["Carboplatin / paclitaxel","With or without pembrolizumab","Lung","Squamous NSCLC, ovarian, endometrial","Every 21 days (weekly with radiation)","Neuropathy, hypersensitivity, thrombocytopenia."],
+["Carboplatin / etoposide / atezolizumab or durvalumab","","Lung","Small cell lung cancer","Every 21 days x4, then immunotherapy","Neutropenia, SIADH, immune toxicity. Etoposide days 1 to 3."],
+["FOLFOX","5-FU + leucovorin + oxaliplatin","GI","Colorectal, gastric","Every 14 days, 5-FU pump over 46 hours","Cold neuropathy, diarrhea, mucositis, neutropenia."],
+["FOLFIRI","5-FU + leucovorin + irinotecan","GI","Colorectal","Every 14 days, pump over 46 hours","Diarrhea, neutropenia."],
+["CAPOX or XELOX","Capecitabine + oxaliplatin","GI","Colorectal","Every 21 days","Hand-foot syndrome, diarrhea, neuropathy."],
+["FOLFIRINOX","5-FU + leucovorin + irinotecan + oxaliplatin","GI","Pancreatic","Every 14 days","High toxicity: diarrhea, neutropenia, neuropathy. Often with G-CSF."],
+["Gemcitabine / nab-paclitaxel","NALIRIFOX is another first-line option for metastatic disease","GI","Pancreatic","Days 1, 8, 15 of 28","Neutropenia, neuropathy, fatigue."],
+["FLOT","Docetaxel + oxaliplatin + 5-FU + leucovorin. Durvalumab may be added before and after surgery for resectable disease","GI","Gastric, GE junction","Every 14 days","Neutropenia, diarrhea, neuropathy. Immune toxicity if given with durvalumab."],
+["Gemcitabine / cisplatin","Biliary: with durvalumab or pembrolizumab, then immunotherapy maintenance","GI","Biliary, bladder","Biliary: gemcitabine and cisplatin days 1 and 8 of 21. Bladder: gemcitabine days 1 and 8, cisplatin day 1, every 21 days","Kidney injury, neutropenia, thrombocytopenia. Immune toxicity when combined with immunotherapy."],
+["Enfortumab vedotin / pembrolizumab","","GU","Urothelial","Every 21 days (enfortumab days 1, 8)","Severe skin reactions, hyperglycemia, immune toxicity."],
+["ADT with abiraterone, enzalutamide, or docetaxel","","GU","Prostate","Continuous androgen deprivation","Hot flashes, bone loss. Abiraterone: low K, hypertension. Docetaxel: neutropenia."],
+["BEP","Bleomycin + etoposide + cisplatin","GU","Germ cell tumor","Every 21 days x3 to 4","Bleomycin lung toxicity, cisplatin kidney and hearing injury, neutropenia."],
+["R-CHOP","Rituximab + cyclophosphamide + doxorubicin + vincristine + prednisone","Heme","Diffuse large B-cell lymphoma","Every 21 days x6","TLS risk in cycle 1, neuropathy, cardiotoxicity. Check HBV status. Pola-R-CHP (polatuzumab replaces vincristine) is an alternative for higher-risk disease."],
+["DA-EPOCH-R","Etoposide, prednisone, vincristine, cyclophosphamide, doxorubicin + rituximab","Heme","Aggressive lymphomas","Every 21 days, 96-hour infusion, inpatient","Neutropenia (G-CSF), neuropathy, TLS."],
+["ABVD","Doxorubicin + bleomycin + vinblastine + dacarbazine","Heme","Hodgkin lymphoma","Days 1 and 15 of 28","Lung toxicity, cardiotoxicity, neutropenia, nausea. Bleomycin is often dropped after a negative interim PET. Advanced stage may use brentuximab or nivolumab plus AVD instead. Never give brentuximab with bleomycin."],
+["7+3","Cytarabine x7 days continuous + daunorubicin x3 days","Heme","AML induction","One block, then marrow check","Prolonged deep pancytopenia (about 3 to 4 weeks), infection, bleeding, TLS, mucositis, cardiotoxicity."],
+["Venetoclax / azacitidine","","Heme","AML, older or unfit","28-day cycles with venetoclax ramp-up","TLS during ramp-up, prolonged neutropenia. Azole interactions."],
+["Hyper-CVAD","Cyclophosphamide, vincristine, doxorubicin, dexamethasone alternating with high-dose methotrexate + cytarabine","Heme","ALL, lymphoblastic lymphoma","Alternating A and B cycles","TLS, deep cytopenias, neurotoxicity, mucositis. Methotrexate clearance."],
+["VRd, DRd, or D-VRd","Bortezomib and/or daratumumab + lenalidomide + dexamethasone. Four-drug D-VRd is used for many newly diagnosed patients","Heme","Multiple myeloma","21 or 28-day cycles, then maintenance","Neuropathy, VTE, zoster, infections. Alert blood bank for daratumumab."],
+["BTK inhibitor or venetoclax + obinutuzumab","Acalabrutinib or zanubrutinib (ibrutinib no longer preferred), or venetoclax + obinutuzumab","Heme","CLL","BTK inhibitor continuous oral. Venetoclax + obinutuzumab fixed 12 months","Bleeding, atrial fibrillation. TLS with venetoclax."],
+["Imatinib or other BCR-ABL TKI","Dasatinib, nilotinib, bosutinib, and asciminib are also first-line options","Heme","CML","Daily oral","Edema, cytopenias, nausea. Dasatinib: pleural effusion. Nilotinib: QTc, glucose, lipids."],
+["Pembrolizumab or nivolumab","With or without ipilimumab","Other","Melanoma, lung, kidney, many others","Pembrolizumab every 3 or 6 weeks. Nivolumab every 2 or 4 weeks. Often up to 2 years","Immune toxicity, sometimes late. See Emergencies."],
+["Chemoradiation","Weekly carboplatin/paclitaxel, or cisplatin, given with radiation","Other","Head and neck, cervical, esophageal, lung","Weekly during 5 to 7 weeks of radiation, or cisplatin 100 mg/m2 every 3 weeks (days 1, 22, 43) for head and neck","Mucositis, dehydration, kidney injury, cytopenias, dysphagia."],
+["Temozolomide + radiation","","Other","Glioblastoma","Daily during radiation, then 5 days of every 28","Myelosuppression. PJP prophylaxis during daily dosing."]
+];
+const SUP=[
+{name:"Nausea and vomiting",sub:"Pharmacy builds the premedication set. You manage breakthrough.",b:[
+"Emetogenic risk drives prophylaxis. High: cisplatin, AC, high-dose cyclophosphamide, carboplatin AUC 4 or higher. Moderate: oxaliplatin, irinotecan, doxorubicin under 60 mg/m2, ifosfamide under 2 g/m2 per dose. Doxorubicin 60 or higher and ifosfamide 2 g/m2 or higher are high risk. Low: taxanes, gemcitabine, 5-FU, etoposide.",
+"Breakthrough: add a drug from a different class and schedule it if nausea persists. Olanzapine 5 to 10 mg qHS. Prochlorperazine 10 mg PO or IV q6h. Metoclopramide 10 mg q6h (avoid in obstruction). Haloperidol 0.5 to 2 mg q6h. Lorazepam 0.5 to 1 mg for anticipatory nausea. Ondansetron 4 to 8 mg q8h.",
+"Check QTc when combining ondansetron, olanzapine, haloperidol, or other QT-prolonging drugs. Ondansetron worsens constipation.",
+"Look beyond chemo: obstruction, constipation, brain metastases, hypercalcemia, uremia, adrenal insufficiency, gastroparesis."]},
+{name:"Constipation and bowel regimen",sub:"Order a bowel regimen with every opioid, every time.",b:[
+"Start senna 8.6 to 17.2 mg at bedtime plus polyethylene glycol 17 g daily. Add bisacodyl or lactulose if no result in 24 to 48 h.",
+"Methylnaltrexone for opioid-induced constipation after laxatives fail, never with suspected obstruction.",
+"Vincristine, ondansetron, and anticholinergics add to it.",
+"No enemas or suppositories in neutropenic or thrombocytopenic patients.",
+"Rule out obstruction, hypercalcemia, and cord compression when constipation is new and severe."]},
+{name:"Pain and opioids",sub:"Treat early. Adjust by response, not by fear of the dose.",b:[
+"Opioid-naive start: oral morphine 5 to 10 mg q4h PRN or oxycodone 5 mg q4h PRN. IV: morphine 2 mg or hydromorphone 0.2 to 0.5 mg q3h PRN.",
+"Reassess at peak effect: 15 min (IV) or 60 min (PO). If 3 or more PRN doses needed in 24 h, convert to a scheduled or long-acting regimen based on the total daily dose.",
+"Breakthrough dose is about 10 to 20 percent of the total daily dose.",
+"Renal failure: avoid morphine, codeine, tramadol, and meperidine. Prefer fentanyl. Use hydromorphone or oxycodone cautiously at reduced dose and frequency.",
+"Adjuvants: gabapentin or duloxetine for neuropathic pain. Dexamethasone for bone or nerve pain. Radiation for focal bone metastases. Avoid NSAIDs with thrombocytopenia or kidney injury.",
+"Use the opioid conversion tool in Cycle and tools for morphine, oxycodone, hydrocodone, and hydromorphone. Fentanyl and methadone conversions go through palliative care or pharmacy."]},
+{name:"Mucositis",sub:"Common 5 to 14 days after chemo.",b:[
+"Salt and baking soda rinses, mouth care every 4 h, viscous lidocaine or magic mouthwash before meals.",
+"Opioids for pain. Soft diet, IV fluids if intake is poor.",
+"Check for HSV (acyclovir) and thrush (fluconazole or nystatin) when severe.",
+"Cannot swallow secretions or maintain intake: admit, consider nutrition support."]},
+{name:"Diarrhea",sub:"Infection, chemo, or immune-related. Work it up first.",b:[
+"Stool C. diff and GI PCR panel. Grade severity and check volume status and electrolytes.",
+"Non-infectious chemo diarrhea: loperamide 4 mg then 2 mg after each loose stool (max 16 mg/day). Octreotide if refractory.",
+"Irinotecan late diarrhea uses a higher label regimen: loperamide 4 mg, then 2 mg every 2 h until diarrhea-free for 12 h, for no more than 48 h.",
+"Irinotecan early diarrhea: atropine. Late diarrhea with fever or neutropenia: treat as an emergency.",
+"On a checkpoint inhibitor: grade 2 or higher diarrhea is colitis until proven otherwise. See Emergencies.",
+"Neutropenic with abdominal pain and diarrhea: think typhlitis."]},
+{name:"Dehydration and AKI",sub:"Very common from nausea, diarrhea, and poor intake.",b:[
+"Causes: prerenal, cisplatin, methotrexate, ifosfamide, contrast, TLS, obstruction (ureteral compression), myeloma cast nephropathy, hypercalcemia, immune nephritis, TMA (gemcitabine).",
+"Urinalysis, urine sodium and creatinine, bladder scan, renal ultrasound.",
+"Renally dose medications. Hold nephrotoxins.",
+"Check whether any chemo or antibiotic needs a dose change."]},
+{name:"Electrolytes",sub:"Replete often. Oncology patients lose a lot.",b:[
+"Keep K 4.0 or higher and Mg 2.0 or higher with arrhythmia, QT-prolonging drugs, or heart disease. Cisplatin, cetuximab, and panitumumab drive Mg wasting.",
+"Low phosphate: replete orally or IV per protocol. Low calcium: check albumin and ionized calcium (denosumab and zoledronic acid lower it).",
+"Sodium and calcium problems: see SIADH and hypercalcemia in Emergencies."]},
+{name:"Venous thromboembolism",sub:"Cancer raises clot risk. Platelet count and tumor site guide anticoagulation.",b:[
+"Treatment: apixaban 10 mg BID x7 days then 5 mg BID, rivaroxaban 15 mg BID x21 days then 20 mg daily, or enoxaparin 1 mg/kg q12h. DOACs are preferred for most patients without GI or GU bleeding risk. Check drug interactions with pharmacy first.",
+"GI and GU tumors carry higher bleeding risk with some DOACs. LMWH may be preferred. Discuss with the senior.",
+"Platelets 50k or higher: full dose. 25 to 50k: LMWH at half or prophylactic dose. For an acute high-risk clot, full-dose LMWH with platelet transfusion to keep platelets 40 to 50k or higher, per attending. Avoid DOACs under 50k. Under 25k: hold and discuss.",
+"CrCl under 30: prefer unfractionated heparin.",
+"Catheter-related clot: anticoagulate for at least 3 months and as long as the line stays in. Keep the line if it works and is needed.",
+"Inpatient prophylaxis: enoxaparin 40 mg daily unless platelets under 50k or active bleeding."]},
+{name:"Pleural effusion and ascites",sub:"Drain for symptoms.",b:[
+"Thoracentesis for dyspnea. Send cell count, protein, LDH, glucose, pH, cytology.",
+"Paracentesis for tense ascites. Send cell count, albumin (SAAG), culture, cytology. Albumin replacement for large volumes.",
+"Recurrent effusions: tunneled drain or pleurodesis. Pericardial effusions: see Emergencies."]},
+{name:"G-CSF (filgrastim, pegfilgrastim)",sub:"Shortens neutropenia. Timing matters.",b:[
+"Pegfilgrastim 6 mg SC once, at least 24 h after chemo ends and not within 14 days before the next cycle. Filgrastim 5 mcg/kg daily.",
+"Bone pain is common. Loratadine helps. Avoid NSAIDs with low platelets.",
+"Not routinely added to treat febrile neutropenia. Consider it in high-risk patients: sepsis, ANC under 100, expected long neutropenia, pneumonia, or invasive fungal infection.",
+"Rare: splenic rupture (left upper quadrant or shoulder pain)."]},
+{name:"Infection prophylaxis and screening",sub:"Know what each patient is already taking.",b:[
+"PJP (TMP-SMX): prednisone 20 mg or more for 4 weeks or longer, fludarabine, temozolomide with radiation, some lymphoma regimens.",
+"HSV and VZV (acyclovir): bortezomib, many heme regimens, transplant.",
+"Antifungal (posaconazole or fluconazole): AML induction and transplant.",
+"Fluoroquinolone (levofloxacin 500 mg daily) when ANC under 100 expected for over 7 days.",
+"Hepatitis B: HBsAg, anti-HBc, anti-HBs before chemo and before rituximab. Start entecavir or tenofovir for HBsAg-positive patients, and for anti-HBc-positive patients getting rituximab or transplant. Continue up to 12 months after therapy."]},
+{name:"Central lines and ports",sub:"Fever with a line is a line infection until proven otherwise.",b:[
+"Ports need a non-coring (Huber) needle. PICCs and tunneled catheters are flushed per policy.",
+"Fever: blood cultures from every lumen and one peripheral.",
+"Remove the line for S. aureus, Pseudomonas, Candida, mycobacteria, tunnel or pocket infection, septic shock, bacteremia over 72 h on therapy, endocarditis, or septic thrombophlebitis.",
+"Arm swelling or pain with a PICC: upper extremity ultrasound for clot.",
+"Contrast injection only through power-injectable lines."]},
+{name:"Dyspnea",sub:"Look for a reversible cause.",b:[
+"Pulmonary embolus, pleural or pericardial effusion, pneumonia, pneumonitis (checkpoint inhibitors, bleomycin, ADCs), heart failure (anthracyclines, trastuzumab), anemia, lymphangitic spread.",
+"CXR, ECG, troponin and BNP, CT chest or CTA as needed.",
+"Symptom relief: fan, oxygen for hypoxia, low-dose opioid for refractory dyspnea."]},
+{name:"Delirium",sub:"Common and often reversible.",b:[
+"Check infection, calcium, sodium, glucose, uremia, hypoxia, opioids, steroids, ifosfamide, brain metastases, urinary retention, constipation.",
+"Non-drug measures first: sleep, glasses, orientation, family at bedside.",
+"Haloperidol 0.5 to 1 mg for dangerous agitation. Avoid benzodiazepines unless withdrawal or seizure."]},
+{name:"Code status and goals of care",sub:"Confirm in the first 24 hours.",b:[
+"Ask what the patient understands about the illness and what matters most. Ask about health care proxy.",
+"Frame honestly: hope for the best and prepare for the worst. Use ask, tell, ask.",
+"Document code status, proxy, and the conversation. Tell the senior and attending what you heard.",
+"Involve palliative care for symptoms and goals, not only at end of life."]},
+{name:"Palliative care referral triggers",sub:"Earlier is better.",b:[
+"Uncontrolled pain, nausea, or dyspnea. Frequent admissions. ECOG 3 to 4. New brain or leptomeningeal disease. Patient or family distress. Prognosis under about a year. Questions about stopping treatment."]},
+{name:"Chemotherapy safety",sub:"Hazardous drug precautions.",b:[
+"Gloves for body fluids for about 48 hours after chemo. Double flush the toilet. Wash linens separately per policy.",
+"Pregnant staff avoid handling hazardous drugs.",
+"Do not open or touch chemo bags. Oncology nursing and pharmacy handle them.",
+"Chemo orders belong to the fellow or attending and are verified by pharmacy."]}
+];
+const LABS=[
+{name:"ANC and neutropenia grades",sub:"ANC = WBC x (neutrophil percent + band percent).",tbl:{h:["ANC (per uL)","Severity (CTCAE grade)","Notes"],r:[["1500 or higher","No neutropenia",""],["1000 to 1499","Mild (grade 2)","Low infection risk"],["500 to 999","Moderate (grade 3)","Rising risk"],["100 to 499","Severe (grade 4)","Fever is an emergency"],["Under 100","Profound (grade 4)","Highest risk. Duration over 7 days raises risk of fungal infection"]]},b:["ANC under 500, or expected to fall under 500 within 48 h, counts for febrile neutropenia."]},
+{name:"Platelet thresholds",sub:"Transfuse below these counts. Based on 2025 AABB and ICTMG guidance. Confirm local policy.",tbl:{h:["Situation","Transfuse if under"],r:[["Prophylactic, stable inpatient","10k"],["Fever, sepsis, or other bleeding risk","20k"],["Central line at a compressible site (IJ, femoral)","10k"],["Lumbar puncture","20k"],["IR procedure, low risk / high risk","20k / 50k"],["Major non-neuraxial surgery, active bleeding","50k"],["CNS bleeding, neurosurgery, eye surgery","100k"]]},b:["Check a 1-hour post-transfusion count. A poor rise suggests alloimmunization, fever, infection, DIC, or splenomegaly."]},
+{name:"Red cells",sub:"Transfuse for symptoms and thresholds.",b:["Transfuse under 7 g/dL. Use under 8 for heart disease or active symptoms.","One unit at a time, then recheck.","Avoid unnecessary transfusion in leukostasis (raises viscosity)."]},
+{name:"Blood product modifiers",sub:"Check the product order for each patient.",b:["Irradiated: Hodgkin lymphoma, purine analogs and bendamustine (fludarabine, cladribine, pentostatin, bendamustine), alemtuzumab, ATG, transplant recipients and patients around stem cell harvest, CAR-T, directed donations from relatives, HLA-matched platelets, granulocytes.","Leukoreduced (and CMV-safe): lowers CMV transmission, febrile reactions, and alloimmunization. Standard in many centers.","Daratumumab interferes with type and screen. Tell the blood bank first.","HLA-matched platelets for refractory patients."]},
+{name:"Daily labs",sub:"Pre-round list.",b:["CBC with differential (ANC, platelets, hemoglobin).","BMP, Mg, phos. LFTs. Calcium with albumin.","High TLS risk or active TLS: K, creatinine, calcium, phos, uric acid, and LDH every 4 to 6 h.","Cultures and pending results. Coagulation studies in leukemia and bleeding patients."]},
+{name:"Hyperkalemia ladder",sub:"For K 6 or higher or ECG changes.",b:["ECG, telemetry, repeat K (rule out hemolysis). With very high WBC or platelets, recheck K on a blood gas or heparinized sample before treating.","Calcium gluconate 1 to 2 g IV over 5 to 10 min for ECG changes. Repeat if needed.","Insulin regular 10 units IV (consider 5 units in renal failure) with dextrose 25 g (D50). Check glucose every hour for 4 to 6 h. Albuterol 10 to 20 mg neb.","Remove potassium: loop diuretic if making urine, binder (sodium zirconium cyclosilicate 10 g), dialysis if refractory.","In TLS call the senior and nephrology early."]},
+{name:"Tumor markers",sub:"Used to follow disease, not to diagnose it.",tbl:{h:["Marker","Associated with"],r:[["CEA","Colorectal"],["CA 19-9","Pancreatic, biliary"],["CA-125","Ovarian"],["PSA","Prostate"],["AFP","Hepatocellular, germ cell"],["Beta-hCG","Germ cell, gestational trophoblastic"],["LDH","Lymphoma, germ cell, tumor burden"],["CA 15-3","Breast (follow-up)"]]},b:[]}
+];
+const TERMS=[
+["C1D1, C3D8","Cycle number and day of cycle. C3D8 is the 8th calendar day of the 3rd cycle. It counts days, not treatments."],
+["Cycle","A repeating treatment block, usually 14, 21, or 28 days, with treatment days followed by recovery time."],
+["Nadir","Lowest blood counts, usually 7 to 14 days after chemo. Recovery by about day 21 for most regimens."],
+["Neoadjuvant","Treatment before surgery or definitive therapy to shrink the tumor."],
+["Adjuvant","Treatment after surgery to kill remaining cells."],
+["Induction, consolidation, maintenance","Leukemia and lymphoma phases: get into remission, deepen it, then keep it."],
+["Salvage","Therapy for relapsed or refractory disease."],
+["Curative or palliative intent","Curative aims for cure. Palliative aims for control and quality of life. Affects how aggressive to be with side effects."],
+["Dose reduction, held cycle","Oncology lowered the dose or delayed treatment for toxicity or low counts."],
+["Dose-dense","Shorter interval between cycles, usually with G-CSF."],
+["BSA dosing","Doses based on body surface area (mg/m2). Carboplatin uses AUC instead."],
+["CR, PR, SD, PD","Complete response, partial response, stable disease, progressive disease (RECIST for solid tumors)."],
+["NED","No evidence of disease."],
+["ORR, PFS, OS","Overall response rate, progression-free survival, overall survival."],
+["MRD","Minimal residual disease. Very small amounts of leukemia or myeloma detected by sensitive testing."],
+["TNM stage","Tumor size, node involvement, metastasis. Stage I is localized, stage IV is metastatic."],
+["ECOG performance status","0 fully active. 1 restricted in strenuous activity. 2 up and about over half the day, cannot work. 3 in bed or chair over half the day. 4 bedbound. 5 dead."],
+["CTCAE grade","1 mild, 2 moderate, 3 severe, 4 life-threatening, 5 death. Grades guide treatment holds and steroid use."],
+["Febrile neutropenia","Fever with ANC under 500 or expected to fall under 500. Medical emergency."],
+["Vesicant and irritant","Vesicants cause tissue necrosis on extravasation (doxorubicin, vincristine). Irritants cause local pain and inflammation."],
+["Emetogenic risk","Share of patients who vomit without prophylaxis. High over 90 percent, moderate 30 to 90, low 10 to 30, minimal under 10."],
+["G-CSF","Growth factor that raises neutrophils: filgrastim, pegfilgrastim."],
+["Autologous and allogeneic transplant","Own stem cells versus donor stem cells. D+30 means 30 days after transplant."],
+["GVHD","Graft-versus-host disease after allogeneic transplant. Skin, gut, liver."],
+["CAR-T","Engineered T cells. Cytokine release syndrome and neurotoxicity are the main risks."],
+["Port, PICC, tunneled line","Central venous access devices for chemo and blood draws. All carry infection and clot risk."],
+["-mab","Monoclonal antibody (rituximab, trastuzumab, pembrolizumab)."],
+["-nib","Kinase inhibitor (imatinib, osimertinib)."],
+["-ciclib, -parib, -zomib","CDK4/6 inhibitors, PARP inhibitors, proteasome inhibitors."],
+["-platin, -rubicin, -taxel, -tecan","Platinums, anthracyclines, taxanes, topoisomerase I inhibitors."],
+["-limus","Usually mTOR inhibitors (everolimus, sirolimus, temsirolimus). Tacrolimus is a calcineurin inhibitor."]
+];
+const QZ=[
+["Emergencies","Define febrile neutropenia.","Temp 38.3 once or 38.0 for 1 h, with ANC under 500 or expected under 500 within 48 h."],
+["Emergencies","Time target for antibiotics in neutropenic fever?","Within 60 minutes of arrival. Do not wait for the ANC."],
+["Emergencies","First-line empiric antibiotics for neutropenic fever?","Antipseudomonal beta-lactam: cefepime, pip-tazo, or meropenem."],
+["Emergencies","When do you add vancomycin in neutropenic fever?","Hypotension, suspected line infection, skin or soft tissue infection, pneumonia, severe mucositis, gram-positive cocci in blood culture, or known MRSA."],
+["Emergencies","What are the Cairo-Bishop lab criteria for TLS?","2 or more of: uric acid 8 or higher, K 6 or higher, phos 4.5 or higher, Ca 7 or lower."],
+["Emergencies","Drug for high uric acid in TLS, and its contraindication?","Rasburicase. G6PD deficiency."],
+["Emergencies","Why send a rasburicase patient's uric acid on ice?","The enzyme keeps destroying uric acid in the tube and gives a falsely low result."],
+["Emergencies","First steps for suspected cord compression?","Neuro exam, dexamethasone, STAT MRI whole spine (contrast optional), call senior, rad onc, and neurosurgery."],
+["Emergencies","Order of treatment for hypercalcemia of malignancy?","IV fluids, then zoledronic acid or denosumab. Calcitonin added for calcium over 14. Denosumab needs a lower dose in severe renal failure."],
+["Emergencies","Corrected calcium formula?","Ca + 0.8 x (4.0 - albumin)."],
+["Emergencies","Low sodium in small cell lung cancer?","SIADH. Fluid restriction. Aim for 4 to 8 mEq/L correction per 24 h, never more than 8 if high risk."],
+["Emergencies","Organs hit by checkpoint inhibitors?","Colon, lung, liver, thyroid, adrenal, pituitary, skin, kidney, heart, nerves."],
+["Emergencies","Checkpoint inhibitor toxicity grade 2 versus 3 to 4 management?","Grade 2: hold, prednisone 0.5 to 1 mg/kg. Grade 3 to 4: admit, methylprednisolone 1 to 2 mg/kg IV."],
+["Emergencies","AML with bleeding and low fibrinogen: what do you start?","ATRA at suspicion of APL. Call heme. Do not wait for confirmation."],
+["Emergencies","How do you treat leukostasis?","Call heme and ICU. Cytoreduction (hydroxyurea or leukapheresis). Avoid unnecessary RBC transfusion."],
+["Emergencies","Fever 2 days after CAR-T: what do you do?","Call the treating team. Cultures and antibiotics. Think CRS and give tocilizumab per protocol."],
+["Emergencies","Neutropenic RLQ pain with cecal thickening?","Typhlitis. Anaerobic coverage, NPO, surgery consult."],
+["Emergencies","Infusion reaction first step?","Stop the infusion. Keep IV open. Call for help. Epinephrine IM for anaphylaxis."],
+["Emergencies","Vesicant extravasation first steps?","Stop infusion, aspirate drug through the cannula, do not flush, then remove it. Call pharmacy and oncology. Dexrazoxane for anthracyclines."],
+["Drugs","Main cisplatin toxicities?","Kidney injury, low Mg and K, hearing loss, neuropathy, severe nausea."],
+["Drugs","Main doxorubicin toxicity?","Cumulative cardiomyopathy."],
+["Drugs","Main bleomycin toxicity?","Pulmonary fibrosis."],
+["Drugs","Vincristine key toxicities and safety rule?","Neuropathy, constipation, ileus. IV only: fatal if given intrathecally."],
+["Drugs","Protective drug for cyclophosphamide and ifosfamide bladder toxicity?","Mesna, plus hydration."],
+["Drugs","Oxaliplatin neuropathy trigger?","Cold."],
+["Drugs","Irinotecan early versus late diarrhea?","Early: cholinergic, treat with atropine. Late: loperamide and fluids."],
+["Drugs","Drugs to avoid with methotrexate?","PPIs, NSAIDs, TMP-SMX, penicillins."],
+["Drugs","Severe cycle 1 toxicity from 5-FU suggests what?","DPD deficiency. Antidote: uridine triacetate."],
+["Drugs","What do you check before rituximab?","Hepatitis B (HBsAg and anti-HBc)."],
+["Drugs","Bevacizumab key toxicities?","Hypertension, proteinuria, bleeding, clots, GI perforation, poor wound healing."],
+["Drugs","Trastuzumab key toxicity?","Cardiomyopathy. Echo monitoring."],
+["Drugs","Cetuximab and panitumumab electrolyte toxicity?","Low magnesium (also acneiform rash)."],
+["Drugs","What does daratumumab do to blood bank testing?","Causes a panreactive antibody screen. Notify the blood bank."],
+["Drugs","Venetoclax main acute risk?","TLS, especially during dose ramp-up."],
+["Drugs","Ibrutinib key toxicities?","Bleeding and atrial fibrillation."],
+["Drugs","Abiraterone needs which companion drug and monitoring?","Prednisone. Check K, blood pressure, fluid retention, and liver tests."],
+["Drugs","Tamoxifen key risks?","VTE and endometrial cancer."],
+["Drugs","Bortezomib key toxicities and prophylaxis?","Neuropathy, thrombocytopenia, zoster. Give acyclovir prophylaxis."],
+["Drugs","Pemetrexed supplements?","Folic acid, B12, and dexamethasone. Avoid NSAIDs."],
+["Regimens","What does C3D8 mean?","The 8th calendar day of the 3rd cycle. It is not a count of treatments."],
+["Regimens","When is the nadir after chemo?","About 7 to 14 days after treatment."],
+["Regimens","What is R-CHOP?","Rituximab, cyclophosphamide, doxorubicin, vincristine, prednisone. Used for DLBCL."],
+["Regimens","What is ABVD and its signature toxicity?","Doxorubicin, bleomycin, vinblastine, dacarbazine. Lung toxicity from bleomycin."],
+["Regimens","What is 7+3?","Cytarabine x7 days with daunorubicin x3 days. AML induction. Deep prolonged pancytopenia."],
+["Regimens","What is FOLFOX?","5-FU, leucovorin, oxaliplatin. Colorectal cancer. Every 14 days with a 46-hour pump."],
+["Regimens","What is BEP?","Bleomycin, etoposide, cisplatin. Germ cell tumors."],
+["Supportive","Prophylactic platelet transfusion threshold?","Under 10k for a stable patient. Under 20k with fever or sepsis, higher for bleeding or some procedures."],
+["Supportive","Usual hemoglobin transfusion threshold?","Under 7 g/dL."],
+["Supportive","Who needs irradiated blood products?","Hodgkin lymphoma, purine analog or bendamustine recipients, alemtuzumab or ATG, transplant recipients, CAR-T, HLA-matched platelets, directed donations from relatives."],
+["Supportive","Bowel regimen rule with opioids?","Order one every time."],
+["Supportive","Anticoagulation by platelet count?","50k or higher: full dose. 25 to 50k: reduced-dose LMWH, or full dose with platelet transfusion support for an acute high-risk clot. Under 25k: hold and discuss. Avoid DOACs under 50k."],
+["Supportive","Pegfilgrastim timing?","At least 24 h after chemo, not within 14 days before the next cycle."],
+["Supportive","When is PJP prophylaxis needed?","Prednisone 20 mg or more for 4 weeks or longer, purine analogs, temozolomide with radiation, some lymphoma regimens."],
+["Supportive","First drug for hyperkalemia with ECG changes?","Calcium gluconate IV to stabilize the heart."],
+["Terms","What is ECOG performance status 3?","In bed or chair more than half the day, limited self-care."],
+["Terms","What does neoadjuvant mean?","Treatment before surgery to shrink the tumor."],
+["Terms","What does -mab mean?","Monoclonal antibody."]
+];
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const h=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const fmt=s=>h(s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+const ul=a=>"<ul>"+a.map(x=>"<li>"+fmt(x)+"</li>").join("")+"</ul>";
+const ol=a=>"<ol>"+a.map(x=>"<li>"+fmt(x)+"</li>").join("")+"</ol>";
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+function tbl(t){return '<div class="tbl"><table><thead><tr>'+t.h.map(x=>"<th>"+h(x)+"</th>").join("")+"</tr></thead><tbody>"+t.r.map(r=>"<tr>"+r.map(c=>"<td>"+fmt(c)+"</td>").join("")+"</tr>").join("")+"</tbody></table></div>"}
+function rEm(e){return '<details class="unit em" data-type="Emergency"><summary><span class="u-name">'+h(e.name)+'</span><span class="pill">'+h(e.pill)+'</span><span class="u-sub">'+fmt(e.trig)+'</span></summary><div class="u-body"><h4>Do now</h4>'+ol(e.now)+'<h4>Then</h4>'+ul(e.then)+'<h4>Call your senior</h4><p>'+fmt(e.call)+'</p><h4>Pearls</h4>'+ul(e.pearls)+'</div></details>'}
+function rDrug(d){return '<article class="unit row" data-type="Drug" data-grp="'+d[2]+'"><div><b>'+h(d[0])+'</b>'+(d[1]?' <span class="aka">'+h(d[1])+'</span>':'')+'<div style="margin-top:4px"><span class="chip">'+h(d[3])+'</span></div></div><div><span class="lbl">Toxicity</span>'+h(d[4])+'</div><div><span class="lbl">Check</span>'+h(d[5])+'</div></article>'}
+function rReg(r){return '<article class="unit row" data-type="Regimen" data-grp="'+r[2]+'"><div><b>'+h(r[0])+'</b>'+(r[1]?'<div class="aka">'+h(r[1])+'</div>':'')+'<div style="margin-top:4px"><span class="chip">'+h(r[3])+'</span></div></div><div><span class="lbl">Schedule</span>'+h(r[4])+'</div><div><span class="lbl">Watch for</span>'+h(r[5])+'</div></article>'}
+function rSup(s,type){return '<details class="unit" data-type="'+type+'"><summary><span class="u-name">'+h(s.name)+'</span><span class="u-sub">'+h(s.sub||"")+'</span></summary><div class="u-body">'+(s.tbl?tbl(s.tbl):"")+(s.b&&s.b.length?ul(s.b):"")+'</div></details>'}
+function rTerm(t){return '<div class="unit term" data-type="Term"><b>'+h(t[0])+'</b><p>'+h(t[1])+'</p></div>'}
+function chips(id,items){return '<div class="chips" data-filter="'+id+'">'+items.map((x,i)=>'<button type="button" class="fc" aria-pressed="'+(i===0)+'" data-v="'+x+'">'+x+'</button>').join("")+'</div>'}
+const expandBtn=id=>'<div class="tools-row"><button class="btn" type="button" data-expand="'+id+'">Expand all</button></div>';
+
+const CHK_ASK=["Who enters and signs chemo orders here, and do interns touch them?","What should I call about overnight?","How do you want presentations? Oncologic history first?","Who is my backup when I am stuck, and what is the number?","Where is the febrile neutropenia pathway?","Which patients have had a code status discussion?"];
+const CHK_ROUND=["Overnight events and Tmax","Cycle, day, last chemo date, nadir window","CBC with differential: ANC, platelets, hemoglobin","BMP, Mg, phos, LFTs; uric acid and LDH if TLS risk","Intake, output, weight, diarrhea, nausea control","Pain score and last bowel movement, bowel regimen on","Lines: site check, any fever","Code status and goals confirmed","Pending cultures, imaging, consult recommendations"];
+function chkList(key,items){const st=store.get("chk-"+key,{});return items.map((t,i)=>'<label class="chk"><input type="checkbox" data-k="'+key+'" data-i="'+i+'"'+(st[i]?" checked":"")+'><span>'+h(t)+'</span></label>').join("")}
+
+const PANELS={};
+PANELS.start='<h2>Start here</h2><p class="lead">On this service you own supportive care, early recognition of sick patients, and knowing where each patient is in treatment. Chemo orders belong to the fellow or attending and are verified by pharmacy.</p>'
++'<div class="grid2"><div class="card"><h4 style="margin-top:0">Ask your senior on day one</h4>'+chkList("ask",CHK_ASK)+'</div><div class="card"><h4 style="margin-top:0">Pre-round checklist, every patient</h4>'+chkList("round",CHK_ROUND)+'</div></div>'
++'<h3>One-liner builder</h3><div class="card"><div class="frow">'
++'<label class="fld">Age<input id="o-age" type="number" inputmode="numeric" value="62"></label>'
++'<label class="fld">Sex<select id="o-sex"><option>F</option><option>M</option></select></label>'
++'<label class="fld">Cancer and stage<input id="o-ca" value="stage II triple-negative breast cancer"></label>'
++'<label class="fld">Regimen<input id="o-reg" value="dose-dense AC"></label>'
++'<label class="fld">Cycle and day<input id="o-cd" value="C3D8"></label>'
++'<label class="fld">Last chemo date<input id="o-last" value="9/28"></label>'
++'<label class="fld">Intent<select id="o-int"><option>curative</option><option>palliative</option><option>intent unclear</option></select></label>'
++'<label class="fld">Admitted with<input id="o-why" value="fever"></label>'
++'<label class="fld">Code status<select id="o-code"><option>Full code</option><option>DNR/DNI</option><option>DNR</option><option>Code status not yet confirmed</option></select></label></div>'
++'<div class="out" id="o-out"></div><div class="tools-row" style="margin-top:8px"><button class="btn pri" type="button" id="o-copy">Copy</button></div><p class="note">Example values shown. Replace them with your patient. Do not enter names or identifiers. Nothing here is saved or sent.</p></div>'
++'<h3>Call your senior right away</h3><div class="unit card alert" data-type="Start">'+ul(["Fever in a patient on chemo or with a central line","New weakness, back pain, or bowel or bladder change","Hypotension, new confusion, or new shortness of breath","Bleeding with low platelets","Potassium 6 or higher or other tumor lysis labs","Diarrhea or new cough on a checkpoint inhibitor","Anything where the patient looks worse than the numbers"])+'<p class="note">"I am worried about this patient, can you come see them?" is a complete sentence.</p></div>'
++'<h3>Where to find things</h3><div class="unit card" data-type="Start">'+ul(["Regimen, cycle, and planned total: the oncology treatment plan in the EHR (in Epic, the treatment plan or Beacon tab).","Exact dose dates: the MAR.","Story and plan: the last oncology clinic note.","Pharmacy and oncology nurses know the regimens best. Ask them early.","Hospital febrile neutropenia pathway. Institutional protocols override this page."])+'</div>';
+PANELS.em='<h2>Emergencies</h2><p class="lead">Tap a card for the full plan. Open with the first actions, then call your senior.</p>'+expandBtn("p-em")+'<div class="list">'+EM.map(rEm).join("")+'</div>';
+PANELS.drugs='<h2>Drugs</h2><p class="lead">Main toxicities and what to check. Search by generic or brand name.</p>'+chips("drugs",["All","Chemo","Targeted","Immuno","Hormonal"])+'<div class="list" id="drugList">'+DRUGS.map(rDrug).join("")+'</div>';
+PANELS.reg='<h2>Regimens</h2><p class="lead">Oncology chooses the regimen. Recognize the name, know the schedule, and watch for the listed problems.</p>'+chips("reg",["All","Breast","Lung","GI","GU","Heme","Other"])+'<div class="list" id="regList">'+REGS.map(rReg).join("")+'</div>';
+PANELS.sup='<h2>Supportive care</h2><p class="lead">Most of your orders live here. Confirm doses with pharmacy and your senior.</p>'+expandBtn("p-sup")+'<div class="list">'+SUP.map(s=>rSup(s,"Supportive")).join("")+'</div>';
+PANELS.labs='<h2>Labs and blood</h2><p class="lead">Thresholds and quick references.</p>'+expandBtn("p-labs")+'<div class="list">'+LABS.map(s=>rSup(s,"Labs")).join("")+'</div>';
+PANELS.terms='<h2>Terms</h2><p class="lead">Cycle language, response criteria, and drug name suffixes.</p><div class="list">'+TERMS.map(rTerm).join("")+'</div>';
+const TOOLKW=[["Cycle tracker: cycle day, nadir window","cycle day nadir c1d1 last chemo tracker"],["Corrected calcium","calcium corrected albumin hypercalcemia"],["ANC calculator","anc neutrophil neutropenia absolute"],["Creatinine clearance (Cockcroft-Gault)","crcl creatinine clearance cockcroft renal"],["Body surface area","bsa body surface area mosteller"],["Opioid conversion","opioid morphine equivalent conversion oxycodone hydromorphone fentanyl"]];
+const fld=(id,label,attrs)=>'<label class="fld">'+label+'<input id="'+id+'" '+attrs+'></label>';
+PANELS.tools='<h2>Cycle and tools</h2><p class="lead">Calculators run in the page. Values are examples. Replace them with your patient.</p>'
++'<div class="card tool" id="t-cycle"><h3 style="margin-top:0">Cycle tracker</h3><div class="frow">'
++fld("c-start","Day 1 of current cycle",'type="date"')+fld("c-len","Cycle length (days)",'type="number" inputmode="numeric" value="21"')+fld("c-last","Last chemo dose",'type="date"')+fld("c-n","Cycle number",'type="number" inputmode="numeric" value="3"')
++'</div><div class="out" id="c-out"></div><p class="note">Counts usually bottom out 7 to 14 days after the last dose and recover by about day 21. AML induction, high-dose regimens, and some targeted drugs run longer. Confirm with a CBC.</p></div>'
++'<div class="grid2" style="margin-top:12px">'
++'<div class="card tool" id="t-ca"><h3 style="margin-top:0">Corrected calcium</h3><div class="frow">'+fld("ca-ca","Calcium (mg/dL)",'type="number" step="0.1" inputmode="decimal" value="12.4"')+fld("ca-alb","Albumin (g/dL)",'type="number" step="0.1" inputmode="decimal" value="2.6"')+'</div><div class="out" id="ca-out"></div><p class="note">Albumin correction is unreliable in critical illness. Confirm with ionized calcium.</p></div>'
++'<div class="card tool" id="t-anc"><h3 style="margin-top:0">ANC</h3><div class="frow">'+fld("anc-w","WBC (K/uL)",'type="number" step="0.1" inputmode="decimal" value="1.2"')+fld("anc-n","Neutrophils %",'type="number" inputmode="decimal" value="30"')+fld("anc-b","Bands %",'type="number" inputmode="decimal" value="2"')+'</div><div class="out" id="anc-out"></div></div>'
++'<div class="card tool" id="t-crcl"><h3 style="margin-top:0">Creatinine clearance</h3><div class="frow">'+fld("cr-age","Age",'type="number" inputmode="numeric" value="62"')+fld("cr-wt","Weight (kg)",'type="number" inputmode="decimal" value="70"')+fld("cr-scr","Creatinine (mg/dL)",'type="number" step="0.01" inputmode="decimal" value="1.1"')+'<label class="fld">Sex<select id="cr-sex"><option value="f">Female</option><option value="m">Male</option></select></label></div><div class="out" id="cr-out"></div><p class="note">Cockcroft-Gault. Pharmacy chooses actual, ideal, or adjusted weight for dosing. A very low creatinine in older, frail, or low-muscle patients overestimates clearance. Carboplatin dosing usually caps the GFR at 125 mL/min.</p></div>'
++'<div class="card tool" id="t-bsa"><h3 style="margin-top:0">Body surface area</h3><div class="frow">'+fld("bsa-h","Height (cm)",'type="number" inputmode="decimal" value="165"')+fld("bsa-w","Weight (kg)",'type="number" inputmode="decimal" value="70"')+'</div><div class="out" id="bsa-out"></div><p class="note">Mosteller. For checking mg/m2 doses and TLS fluids.</p></div></div>'
++'<div class="card tool" id="t-op" style="margin-top:12px"><h3 style="margin-top:0">Opioid conversion</h3><div class="frow"><label class="fld">From<select id="op-from"></select></label>'+fld("op-dose","Total dose per 24 h (mg)",'type="number" inputmode="decimal" value="60"')+'</div><div class="out" id="op-out"></div><p class="note">Approximate equianalgesic values. Reduce the new dose 25 to 50 percent for incomplete cross-tolerance and adjust to pain and sedation. Based on the NCCN equianalgesic table. Fentanyl (IV or patch) and methadone are left out on purpose: single-dose ratios overestimate for infusions and patches, so those conversions go through pharmacy or palliative care. Verify every conversion with pharmacy.</p></div>';
+
+const OPI=[["Morphine PO",30,"mg"],["Oxycodone PO",20,"mg"],["Hydrocodone PO",30,"mg"],["Hydromorphone PO",7.5,"mg"],["Morphine IV",10,"mg"],["Hydromorphone IV",1.5,"mg"]];
+const num=id=>{const v=parseFloat($("#"+id).value);return isNaN(v)?null:v};
+const fx=(n,d=1)=>(Math.round(n*Math.pow(10,d))/Math.pow(10,d)).toString();
+const dayMs=86400000, ds=s=>{const p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2],12)};
+const dstr=d=>d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+function cycleCalc(start,len,last,n,today){
+  const day=Math.round((today-start)/dayMs)+1, since=Math.round((today-last)/dayMs);
+  const nadirA=new Date(last.getTime()+7*dayMs), nadirB=new Date(last.getTime()+14*dayMs), next=new Date(start.getTime()+len*dayMs);
+  let state;
+  if(since<0) state="Last dose date is in the future.";
+  else if(since<7) state="Before the usual nadir. Counts may still be falling.";
+  else if(since<=14) state="Inside the usual nadir window. Highest infection risk.";
+  else if(since<=21) state="Counts usually recovering. Confirm with CBC.";
+  else state="Past the usual recovery window. Low counts now suggest prolonged or delayed recovery.";
+  const label=(n?"C"+n:"Cycle ")+"D"+day;
+  return {label,day,since,nadir:dstr(nadirA)+" to "+dstr(nadirB),next:dstr(next),state,over:day>len,future:day<1};
+}
+function calcCycle(){
+  const a=$("#c-start").value,l=$("#c-last").value,len=num("c-len"),n=num("c-n"),o=$("#c-out");
+  if(!a||!len){o.textContent="Enter day 1 of the cycle and the cycle length.";return}
+  if(len<1){o.textContent="Cycle length must be at least 1 day.";return}
+  const r=cycleCalc(ds(a),len,l?ds(l):ds(a),n,new Date());
+  if(r.future){o.textContent="Day 1 is in the future. Check the date.";return}
+  if(l&&ds(l)<ds(a)){o.textContent="Last dose is before day 1 of this cycle. Check the dates.";return}
+  o.textContent="Today: "+r.label+"\nDays since last dose: "+r.since+"\nUsual nadir window: "+r.nadir+(r.over?"\nPlanned next cycle day 1 was "+r.next+". Past the planned cycle length, so the next cycle may be delayed.":"\nPlanned next cycle day 1: "+r.next)+"\n"+r.state;
+}
+function calcCa(){const ca=num("ca-ca"),al=num("ca-alb"),o=$("#ca-out");if(ca==null||al==null){o.textContent="Enter both values.";return}
+  if(al<=0||ca<=0){o.textContent="Enter values above 0.";return}const c=ca+0.8*(4-al);let b=c<8.5?"Low":c<=10.5?"Normal":c<12?"Mild hypercalcemia":c<=14?"Moderate hypercalcemia":"Severe hypercalcemia";
+  o.className="out"+(c>12?" alert":"");o.textContent="Corrected Ca: "+fx(c)+" mg/dL\n"+b}
+function calcAnc(){const w=num("anc-w"),n=num("anc-n"),b=num("anc-b"),o=$("#anc-out");if(w==null||n==null){o.textContent="Enter WBC and neutrophil percent.";return}
+  const a=w*1000*(n+(b||0))/100;let g=a>=1500?"No neutropenia":a>=1000?"Mild neutropenia (CTCAE grade 2)":a>=500?"Moderate neutropenia (CTCAE grade 3)":a>=100?"Severe neutropenia (CTCAE grade 4)":"Profound neutropenia (CTCAE grade 4)";
+  o.className="out"+(a<500?" alert":"");o.textContent="ANC: "+Math.round(a)+" per uL\n"+g}
+function calcCr(){const age=num("cr-age"),w=num("cr-wt"),s=num("cr-scr"),o=$("#cr-out");if(age==null||w==null||!s){o.textContent="Enter age, weight, and creatinine.";return}
+  if(age<18||w<=0||s<=0){o.textContent="Formula is for adults with weight and creatinine above 0.";return}let c=(140-age)*w/(72*s);if($("#cr-sex").value==="f")c*=0.85;o.textContent="CrCl: "+Math.round(c)+" mL/min"}
+function calcBsa(){const hh=num("bsa-h"),w=num("bsa-w"),o=$("#bsa-out");if(hh==null||w==null){o.textContent="Enter height and weight.";return}
+  if(hh<=0||w<=0){o.textContent="Enter values above 0.";return}o.textContent="BSA: "+fx(Math.sqrt(hh*w/3600),2)+" m2"}
+function calcOp(){const i=parseInt($("#op-from").value,10),d=num("op-dose"),o=$("#op-out");if(d==null){o.textContent="Enter a dose.";return}
+  if(d<=0){o.textContent="Enter a dose above 0.";return}const ome=d/OPI[i][1]*30;let t="Oral morphine equivalent: "+Math.round(ome)+" mg/day\nBreakthrough dose: 10 to 20 percent of the total daily dose\n";
+  OPI.forEach((p,j)=>{if(j===i)return;const full=ome/30*p[1];t+="\n"+p[0]+": "+fx(full,1)+" mg/day equianalgesic. Start "+fx(full*0.5,1)+" to "+fx(full*0.75,1)+" mg/day after a 25 to 50 percent reduction"});
+  o.textContent=t}
+
+function oneLiner(){const g=id=>$("#"+id).value.trim();
+  const s=g("o-age")+g("o-sex")+" with "+g("o-ca")+" on "+g("o-reg")+" ("+g("o-cd")+", last chemo "+g("o-last")+", "+g("o-int")+" intent), admitted with "+g("o-why")+". "+g("o-code")+".";
+  $("#o-out").textContent=s}
+
+/* Quiz */
+let deck=[],qi=0,shown=false,got=0,missed=[],qcat="All";
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function quizStart(c,pool){if(!pool)qcat=c;deck=shuffle((pool||QZ.filter(q=>c==="All"||q[0]===c)).slice());qi=0;shown=false;got=0;missed=[];quizRender()}
+function quizRender(){const el=$("#quizBody");const total=deck.length;
+  if(qi>=total){el.innerHTML='<div class="card qcard"><div class="qq">Done: '+got+' of '+total+' correct.</div>'+(missed.length?'<div class="qbtns"><button class="btn pri" type="button" data-q="review">Review '+missed.length+' missed</button><button class="btn" type="button" data-q="restart">Restart</button></div>':'<div class="qbtns"><button class="btn pri" type="button" data-q="restart">Restart</button></div>')+'</div>';return}
+  const q=deck[qi];
+  el.innerHTML='<div class="bar2"><i style="width:'+Math.round(qi/total*100)+'%"></i></div><div class="note">'+(qi+1)+' of '+total+' | '+h(q[0])+' | '+got+' correct</div><div class="card qcard"><div class="qq">'+h(q[1])+'</div>'
+  +(shown?'<div class="qa">'+h(q[2])+'</div><div class="qbtns"><button class="btn pri" type="button" data-q="got">Got it</button><button class="btn" type="button" data-q="miss">Missed</button></div>':'<div class="qbtns"><button class="btn pri" type="button" data-q="show">Show answer</button></div>')+'</div>'}
+PANELS.quiz='<h2>Quiz</h2><p class="lead">Short recall questions. Mark each as got it or missed, then review the misses.</p>'+chips("quiz",["All","Emergencies","Drugs","Regimens","Supportive","Terms"])+'<div id="quizBody"></div>';
+
+/* Router and search */
+const TABS=[["start","Start"],["em","Emergencies"],["drugs","Drugs"],["reg","Regimens"],["tools","Cycle and tools"],["sup","Supportive care"],["labs","Labs and blood"],["terms","Terms"],["quiz","Quiz"]];
+let cur="start";
+function init(){
+  const main=$("#main"),tabs=$("#tabs");
+  tabs.innerHTML=TABS.map(t=>'<button class="tab" type="button" role="tab" data-t="'+t[0]+'">'+t[1]+'</button>').join("");
+  main.innerHTML=TABS.map(t=>'<section class="panel" id="p-'+t[0]+'" hidden>'+PANELS[t[0]]+'</section>').join("")+'<section id="results" hidden></section>';
+  $("#op-from").innerHTML=OPI.map((p,i)=>'<option value="'+i+'">'+p[0]+" ("+p[2]+")</option>").join("");
+  const td=new Date(), s=new Date(td.getTime()-9*dayMs), l=new Date(td.getTime()-9*dayMs);
+  $("#c-start").value=iso(s);$("#c-last").value=iso(l);
+  ["c-start","c-len","c-last","c-n"].forEach(i=>$("#"+i).addEventListener("input",calcCycle));
+  ["ca-ca","ca-alb"].forEach(i=>$("#"+i).addEventListener("input",calcCa));
+  ["anc-w","anc-n","anc-b"].forEach(i=>$("#"+i).addEventListener("input",calcAnc));
+  ["cr-age","cr-wt","cr-scr","cr-sex"].forEach(i=>$("#"+i).addEventListener("input",calcCr));
+  ["bsa-h","bsa-w"].forEach(i=>$("#"+i).addEventListener("input",calcBsa));
+  ["op-from","op-dose"].forEach(i=>$("#"+i).addEventListener("input",calcOp));
+  $$("#p-start .frow input,#p-start .frow select").forEach(e=>e.addEventListener("input",oneLiner));
+  calcCycle();calcCa();calcAnc();calcCr();calcBsa();calcOp();oneLiner();quizStart("All");
+  $("#o-copy").addEventListener("click",()=>{const t=$("#o-out").textContent,b=$("#o-copy");
+    const done=()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1500)};
+    try{navigator.clipboard.writeText(t).then(done,()=>sel())}catch(e){sel()}
+    function sel(){const r=document.createRange();r.selectNodeContents($("#o-out"));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected"}});
+  main.addEventListener("change",e=>{const c=e.target.closest("input[data-k]");if(!c)return;const k="chk-"+c.dataset.k,st=store.get(k,{});st[c.dataset.i]=c.checked;store.set(k,st)});
+  main.addEventListener("click",e=>{
+    const f=e.target.closest(".fc");if(f){const box=f.parentElement,id=box.dataset.filter;$$(".fc",box).forEach(x=>x.setAttribute("aria-pressed",x===f));const v=f.dataset.v;
+      if(id==="drugs"||id==="reg")$$("#"+(id==="drugs"?"drugList":"regList")+" .row").forEach(r=>r.hidden=!(v==="All"||r.dataset.grp===v));
+      if(id==="quiz")quizStart(v);return}
+    const x=e.target.closest("[data-expand]");if(x){const ds2=$$("details",$("#"+x.dataset.expand));const any=ds2.some(d=>!d.open);ds2.forEach(d=>d.open=any);x.textContent=any?"Collapse all":"Expand all";return}
+    const qb=e.target.closest("[data-q]");if(qb){const a=qb.dataset.q;
+      if(a==="show")shown=true;
+      else if(a==="got"){got++;qi++;shown=false}
+      else if(a==="miss"){missed.push(deck[qi]);qi++;shown=false}
+      else if(a==="restart")return quizStart(qcat);
+      else if(a==="review")return quizStart("Missed",missed.slice());
+      quizRender()}});
+  tabs.addEventListener("click",e=>{const b=e.target.closest(".tab");if(b){$("#q").value="";show(b.dataset.t,true)}});
+  $("#q").addEventListener("input",search);
+  addEventListener("hashchange",()=>{const t=location.hash.slice(1);if(PANELS[t])show(t,false)});
+  document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement.tagName!=="INPUT"&&document.activeElement.tagName!=="SELECT"){e.preventDefault();$("#q").focus()}});
+  const mode=store.get("theme","auto");applyTheme(mode);
+  $("#themeBtn").addEventListener("click",()=>{const m=store.get("theme","auto"),n=m==="auto"?"dark":m==="dark"?"light":"auto";store.set("theme",n);applyTheme(n)});
+  const t0=location.hash.slice(1);show(PANELS[t0]?t0:"start",false);
+}
+function applyTheme(m){const r=document.documentElement;if(m==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",m);$("#themeBtn").textContent="Theme: "+m.charAt(0).toUpperCase()+m.slice(1)}
+function show(id,setHash){cur=id;$("#results").hidden=true;$$(".panel").forEach(p=>p.hidden=p.id!=="p-"+id);
+  $$(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.t===id));
+  if(setHash){try{history.replaceState(null,"","#"+id)}catch(e){}}
+  const bar=$(".bar");scrollTo({top:0})}
+function search(){
+  const q=$("#q").value.trim().toLowerCase(),res=$("#results");
+  if(q.length<2){res.hidden=true;show(cur,false);return}
+  const terms=q.split(/\s+/);
+  $$(".panel").forEach(p=>p.hidden=true);$$(".tab").forEach(t=>t.setAttribute("aria-selected","false"));
+  const hits=$$(".unit").filter(u=>{const t=u.textContent.toLowerCase();return terms.every(w=>t.includes(w))});
+  const tools=TOOLKW.filter(t=>terms.every(w=>(t[0]+" "+t[1]).toLowerCase().includes(w)));
+  let html='<h2>'+(hits.length+tools.length)+' result'+(hits.length+tools.length===1?"":"s")+' for "'+h(q)+'"</h2>';
+  if(tools.length)html+=tools.map(t=>'<div class="card" style="margin-bottom:8px"><span class="src" style="margin:0">Tool</span><div><a href="#tools" data-go="tools">'+h(t[0])+'</a></div></div>').join("");
+  res.innerHTML=html+'<div class="list" id="resList"></div>';
+  const list=$("#resList",res);
+  hits.slice(0,40).forEach(u=>{const w=document.createElement("div"),c=u.cloneNode(true);c.removeAttribute("id");$$("[id]",c).forEach(x=>x.removeAttribute("id"));
+    if(c.tagName==="DETAILS"&&hits.length<=6)c.open=true;
+    w.innerHTML='<div class="src">'+h(u.dataset.type||"")+'</div>';w.appendChild(c);list.appendChild(w)});
+  if(!hits.length&&!tools.length)list.innerHTML='<p class="lead">No matches. Try a generic name, a brand name, or a shorter word.</p>';
+  res.hidden=false;
+  $$("[data-go]",res).forEach(a=>a.addEventListener("click",ev=>{ev.preventDefault();$("#q").value="";show(a.dataset.go,true)}));
+}
+init();
+</script>
+
+</body></html>
